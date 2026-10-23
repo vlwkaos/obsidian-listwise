@@ -133,7 +133,7 @@ export function applyEdits(view: EditorView, edits: Edit[], userEvent: string, c
 	);
 	view.dispatch({ changes, selection, userEvent, annotations: isolateHistory.of('full'), scrollIntoView: true });
 	refold(view, edits.flatMap((e) => e.result.folded));
-	log(() => JSON.stringify({ userEvent, lines: edits.map((e) => e.result.lines), changes: changes.toJSON() }));
+	log(() => JSON.stringify({ userEvent, lines: edits.map((e) => e.result.lines), changes: changes.toJSON() as unknown }));
 }
 
 /** Fold effect for the item on line `n` (Obsidian's own fold range), or null when not foldable or already folded. */
