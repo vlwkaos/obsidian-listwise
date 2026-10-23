@@ -1,0 +1,77 @@
+/* Listwise. Colors and sizes come from Obsidian theme variables, so third-party themes apply. */
+
+/* Better list styles: smaller, muted bullets aligned to the text (outliner styles.css). */
+body.listwise-better-lists .cm-s-obsidian .list-bullet::after,
+body.listwise-better-lists .markdown-rendered .list-bullet::after {
+	width: 0.4em;
+	height: 0.4em;
+	background-color: var(--text-muted);
+}
+
+body.listwise-better-lists .cm-s-obsidian .cm-formatting-list-ul {
+	margin-right: 0.3em;
+}
+
+/* Vertical indentation lines: a 1px rule inside a wider hit area. They replace Obsidian's
+   own indentation guides in lists, which would otherwise draw a second line per level. */
+body.listwise-list-lines-on .markdown-source-view.mod-cm6 .cm-hmd-list-indent .cm-indent::before {
+	display: none;
+}
+
+.listwise-list-lines {
+	pointer-events: none;
+}
+
+.listwise-list-line {
+	position: absolute;
+	left: var(--listwise-x);
+	top: var(--listwise-y);
+	height: var(--listwise-height);
+	width: 9px;
+	margin-left: -4px;
+	pointer-events: auto;
+	cursor: pointer;
+}
+
+.listwise-list-line::before {
+	content: '';
+	position: absolute;
+	left: 4px;
+	top: 0;
+	bottom: 0;
+	width: 1px;
+	background-color: var(--background-modifier-border);
+}
+
+.listwise-list-line:hover::before {
+	background-color: var(--text-faint);
+}
+
+/* Drag and drop. */
+body.listwise-dragging,
+body.listwise-dragging * {
+	cursor: grabbing !important;
+	user-select: none;
+}
+
+.listwise-dragging-line {
+	opacity: 0.5;
+}
+
+.listwise-drop-indicator {
+	position: fixed;
+	left: var(--listwise-x);
+	top: var(--listwise-y);
+	width: var(--listwise-width);
+	height: 2px;
+	z-index: var(--layer-tooltip);
+	background-color: var(--interactive-accent);
+	border-radius: 1px;
+	pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.listwise-drop-indicator {
+		transition: top 60ms ease-out, left 60ms ease-out;
+	}
+}

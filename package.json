@@ -1,0 +1,30 @@
+{
+	"name": "listwise",
+	"version": "0.1.0",
+	"description": "Outliner-style list manipulation for Obsidian: move, indent, fold and edit whole items, including multi-item selections",
+	"main": "main.js",
+	"packageManager": "npm@11.19.0",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"link": "node scripts/link-to-vault.js",
+		"setup": "node scripts/setup.js",
+		"scenario": "node scripts/scenario.mjs"
+	},
+	"engines": {
+		"npm": ">=11.10.0"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@codemirror/commands": "6.8.1",
+		"@codemirror/language": "6.12.3",
+		"@codemirror/state": "6.5.0",
+		"@codemirror/view": "6.38.6",
+		"@types/node": "20.19.33",
+		"builtin-modules": "3.3.0",
+		"esbuild": "0.25.12",
+		"obsidian": "1.12.3",
+		"tslib": "2.6.0",
+		"typescript": "5.0.4"
+	}
+}

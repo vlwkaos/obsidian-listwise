@@ -1,0 +1,10 @@
+{
+	"id": "listwise",
+	"name": "Listwise",
+	"version": "0.1.0",
+	"minAppVersion": "1.11.4",
+	"description": "Move, indent, fold and edit list items with their children, also across multi-item selections and multiple cursors. Outliner-style list editing with one undo step per action.",
+	"author": "vlwkaos",
+	"authorUrl": "https://github.com/vlwkaos",
+	"isDesktopOnly": false
+}
