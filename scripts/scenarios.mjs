@@ -15,6 +15,11 @@ export const scenarios = [
 	{ name: 'tab indents at every cursor', doc: '- a\n- b|\n- c\n- d|', keys: ['Tab'], expect: '- a\n\t- b|\n- c\n\t- d|' },
 	{ name: 'shift-tab outdents every selected item', doc: '- a\n\t- «b\n\t- c»', keys: ['Shift+Tab'], expect: '- a\n- «b\n- c»' },
 	{ name: 'mixed tabs and spaces still outdent', doc: '- a\n  - b\n\t- c|', keys: ['Shift+Tab'], expect: '- a\n  - b\n  - c|' },
+	{ name: 'shift-tab on a top item leaves the list, children move up', doc: '- a|\n\t- a1\n\t\t- a11\n\t- a2\n- b', keys: ['Shift+Tab'], expect: 'a|\n- a1\n\t- a11\n- a2\n- b', undo: true },
+	{ name: 'shift-tab on selected top items leaves the list', doc: '- «a\n- b»\n\t- b1', keys: ['Shift+Tab'], expect: '«a\nb»\n- b1' },
+	{ name: 'shift-tab on a top numbered item renumbers what follows', doc: '1. a\n2. b|\n\t1. x\n3. c', keys: ['Shift+Tab'], expect: '1. a\n\nb|\n1. x\n2. c' },
+	{ name: 'shift-tab on a later top item adds a blank line above', doc: '- a\n\t- a1\n- b|\n\t- b1', keys: ['Shift+Tab'], expect: '- a\n\t- a1\n\nb|\n- b1', undo: true },
+	{ name: 'shift-tab on a top checkbox item drops the marker', doc: '- [ ] a|\n\t- [ ] a1', keys: ['Shift+Tab'], expect: 'a|\n- [ ] a1' },
 	{ name: 'tab in a paragraph keeps the default', doc: 'ab|c', keys: ['Tab'], expect: '\tab|c' },
 
 	// Move (outliner parity, plus multi-item and renumbering)

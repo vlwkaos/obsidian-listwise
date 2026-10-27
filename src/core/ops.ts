@@ -234,12 +234,22 @@ export function indent(s: Session, items: Item[]): boolean {
  * Outdent in place, as Obsidian's own Shift+Tab: the run keeps its lines and the siblings after
  * it become children of its last item (outliner moved the run below them instead).
  * `keepSiblings` keeps outliner's move, for Enter on an empty item.
+ * A top-level item leaves the list as a plain line and its children move up to the top level
+ * (user request 2026-10-27); the siblings after it stay a list below that line.
  */
 export function outdent(s: Session, items: Item[], keepSiblings = false): boolean {
 	for (const run of runs(items).reverse()) {
 		const parent = run[0].parent!;
 		const grand = parent.parent;
-		if (!grand) continue;
+		if (!grand) {
+			// ^ Under a list item a line is a lazy continuation of that item (CommonMark), so the new
+			// paragraph needs a blank line above it; the blank is a note line of the item above.
+			const prev = parent.children[parent.children.indexOf(run[0]) - 1];
+			const above = prev && !prev.plain ? lastDescendant(prev) : null;
+			if (above && above.notes.at(-1)?.trim() !== '') above.notes.push('');
+			for (const item of run) if (!item.plain) toPlain(s, item, item.indent + (s.checkboxPrefix ? '' : item.checkbox) + item.text);
+			continue;
+		}
 		const last = run[run.length - 1];
 		const after = keepSiblings ? [] : parent.children.slice(parent.children.indexOf(last) + 1);
 		const at = grand.children.indexOf(parent) + 1;

@@ -12,7 +12,7 @@ Markdown. Your notes stay ordinary lists that any editor can read.
 
 | Key or action | Behavior |
 |---|---|
-| Tab / Shift+Tab | Indent or outdent every selected item (or the item at every cursor) with its children. Shift+Tab keeps the item on its line; the siblings below it become its children |
+| Tab / Shift+Tab | Indent or outdent every selected item (or the item at every cursor) with its children. Shift+Tab keeps the item on its line; the siblings below it become its children. Shift+Tab on a top-level item turns it into a plain line (with a blank line above it when needed) and moves its children up to the top level |
 | Move commands | Move the selected items with their children; at the edge of a parent they move into the neighbouring parent |
 | Fold commands | Fold or unfold the selected items (Obsidian's own folds; needs "Fold indent") |
 | Enter | Split the item; an empty nested item outdents; an empty top item leaves the list; at the end of an open parent, adds a first child; carries `[ ] ` |

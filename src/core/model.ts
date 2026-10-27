@@ -358,15 +358,20 @@ const ORDERED_RE = /^(\d{1,9})([.)])$/;
 /**
  * Renumber ordered sibling runs under each parent in `dirty`.
  * A run starts at the smallest number among items that kept their parent, so `3.` lists stay at 3.
+ * A run right after a plain line starts at 1: CommonMark lets only a `1.` list interrupt a
+ * paragraph, so `2. x` under a line would join that line's text.
  */
 export function renumber(dirty: Set<Item>, kept: Set<Item>) {
 	for (const parent of dirty) {
 		let run: Item[] = [];
 		let delim = '';
+		/** The run being collected starts right after a plain line. */
+		let afterPlain = false;
+		let prevPlain = false;
 		const flush = () => {
 			if (!run.length) return;
 			const claimed = run.filter((i) => kept.has(i)).map((i) => parseInt(i.bullet, 10));
-			let n = claimed.length ? Math.min(...claimed) : 1;
+			let n = afterPlain || !claimed.length ? 1 : Math.min(...claimed);
 			for (const i of run) i.bullet = `${n++}${delim}`;
 			run = [];
 		};
@@ -374,9 +379,11 @@ export function renumber(dirty: Set<Item>, kept: Set<Item>) {
 			const m = ORDERED_RE.exec(c.bullet);
 			if (!m || c.plain || (run.length && m[2] !== delim)) flush();
 			if (m && !c.plain) {
+				if (!run.length) afterPlain = prevPlain;
 				delim = m[2];
 				run.push(c);
 			}
+			prevPlain = c.plain;
 		}
 		flush();
 	}
