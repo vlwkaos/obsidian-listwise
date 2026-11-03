@@ -61,8 +61,8 @@ Where Listwise behaves differently:
 2. Ordered lists keep their start number, and `1)` lists are supported.
 3. Lists with mixed tabs and spaces, or blank lines between items, stay editable.
 4. Each action is a single undo step, and folds survive moves.
-5. Shift+Tab on a middle child outdents it in place, as Obsidian's own Shift+Tab does (Outliner
-   moves it below its later siblings). Enter on an empty middle item still moves it below them.
+5. Shift+Tab on a middle child, and Enter on an empty middle child, outdent it in place, as
+   Obsidian's own Shift+Tab does (Outliner moves it below its later siblings).
 
 Outliner is mature and widely used; Listwise is new. If Outliner already does what you need,
 there is no reason to switch.

@@ -233,11 +233,10 @@ export function indent(s: Session, items: Item[]): boolean {
 /**
  * Outdent in place, as Obsidian's own Shift+Tab: the run keeps its lines and the siblings after
  * it become children of its last item (outliner moved the run below them instead).
- * `keepSiblings` keeps outliner's move, for Enter on an empty item.
  * A top-level item leaves the list as a plain line and its children move up to the top level
  * (user request 2026-10-27); the siblings after it stay a list below that line.
  */
-export function outdent(s: Session, items: Item[], keepSiblings = false): boolean {
+export function outdent(s: Session, items: Item[]): boolean {
 	for (const run of runs(items).reverse()) {
 		const parent = run[0].parent!;
 		const grand = parent.parent;
@@ -251,7 +250,7 @@ export function outdent(s: Session, items: Item[], keepSiblings = false): boolea
 			continue;
 		}
 		const last = run[run.length - 1];
-		const after = keepSiblings ? [] : parent.children.slice(parent.children.indexOf(last) + 1);
+		const after = parent.children.slice(parent.children.indexOf(last) + 1);
 		const at = grand.children.indexOf(parent) + 1;
 		run.forEach((item, k) => place(s.block, item, grand, at + k));
 		if (after.length) last.folded = false;
@@ -308,7 +307,8 @@ export function enter(s: Session, range: Range, opts: EnterOptions): boolean {
 	const empty = item.text.trim() === '' && item.notes.length === 0 && from === to;
 	if (empty && !opts.before) {
 		if (item.parent !== block.root) {
-			outdent(s, [item], true);
+			// ^ In place, as Shift+Tab (user request 2026-10-29); outliner moved it below its later siblings.
+			outdent(s, [item]);
 			caret(s, item);
 			return true;
 		}
